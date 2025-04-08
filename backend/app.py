@@ -1,3 +1,9 @@
+from model import create_model
+from flask import Flask, request, jsonify
+import numpy as np
+
+app = Flask(__name__)
+
 @app.route('/api/train', methods=['POST'])
 def train_model():
     """Modeli eğitir ve sonuçları döndürür."""
@@ -8,7 +14,6 @@ def train_model():
     learning_rate = data['learning_rate']
     epochs = data['epochs']
 
-    import numpy as np
     X_train = np.random.rand(100, 5)  
     y_train = np.random.randint(0, 2, 100)  
     input_dim = X_train.shape[1]  
@@ -27,3 +32,24 @@ def train_model():
         'accuracy': accuracy,
         'history': model_history.history
     })
+
+@app.route('/api/sendParameters', methods=['POST'])
+def send_parameters():
+    """Model parametrelerini döndürür."""
+    data = request.get_json()
+    layer_count = data['layer_count']
+    layer_neurons = data['layer_neurons']  
+    activation_function = data['activation_function']
+    learning_rate = data['learning_rate']
+    epochs = data['epochs']
+
+    return jsonify({
+        'layer_count': layer_count,
+        'layer_neurons': layer_neurons,
+        'activation_function': activation_function,
+        'learning_rate': learning_rate,
+        'epochs': epochs
+    })
+
+if __name__ == '__main__':
+    app.run(debug=True)
