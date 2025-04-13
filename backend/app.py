@@ -1,8 +1,12 @@
-from model import create_model
 from flask import Flask, request, jsonify
 import numpy as np
 
 app = Flask(__name__)
+
+@app.route('/')
+def index():
+    """Ana sayfa."""
+    return "Flask API is running!"
 
 @app.route('/api/train', methods=['POST'])
 def train_model():
