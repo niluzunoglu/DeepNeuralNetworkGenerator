@@ -5,6 +5,8 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 
 class Activation:
 
+    # Nesne oluşturulmaya gerek kalmasın diye static method olarak tanımladım.
+    
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self.logger.debug("Activation class initialized.")

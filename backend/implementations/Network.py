@@ -1,7 +1,6 @@
 import numpy as np
 from typing import List, Callable, Optional
-# Layer sınıfını ve aktivasyon fonksiyonlarını import et
-from backend.Layer import Layer, sigmoid, relu, linear # Dosya yolunu kontrol et
+from Layer import Layer, sigmoid, relu, linear # Dosya yolunu kontrol et
 
 class NeuralNetwork:
 

@@ -2,26 +2,16 @@
 
 import numpy as np
 from typing import List, Callable, Optional
-# Neuron sınıfını ve aktivasyon fonksiyonlarını import et
-from backend.Neuron import Neuron, sigmoid, relu, linear # Dosya yolunu kontrol et
+from Neuron import Neuron, sigmoid, relu, linear
 
 class Layer:
 
-    # Bu sınıf bir katmanı temsil eder ve birden fazla Neuron objesi bulunabilir.
-
-    def __init__(self, num_neurons: int, input_dim: int,
-                 activation_func: Callable[[np.ndarray], np.ndarray] = linear,
-                 name: Optional[str] = None):
+    def __init__(self, num_neurons, input_dim, activation_func, name):
         """
-        Katmanı başlatır.
-
-        Args:
-            num_neurons (int): Bu katmanda bulunacak nöron sayısı.
-            input_dim (int): Bu katmana gelen girdi sayısı (önceki katmanın nöron sayısı
-                             veya ilk katman için özellik sayısı).
-            activation_func (Callable): Bu katmandaki tüm nöronlar için kullanılacak
-                                       varsayılan aktivasyon fonksiyonu.
-            name (Optional[str]): Katmana isteğe bağlı bir isim.
+        num_neurons Bu katmanda bulunacak nöron sayısı.
+        input_dim Bu katmana gelen girdi sayısı (önceki katmanın nöron sayısı veya ilk katman için özellik sayısı).
+        activation_func  Bu katmandaki tüm nöronlar için kullanılacak varsayılan aktivasyon fonksiyonu.
+        name  
         """
         if num_neurons <= 0:
             raise ValueError("Nöron sayısı pozitif olmalıdır.")
