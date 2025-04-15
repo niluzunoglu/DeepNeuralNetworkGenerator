@@ -6,7 +6,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(name)s - %(leve
 
 class Neuron:
 
-    def __init__(self, input_dim: int, activation_func: Callable[[np.ndarray], np.ndarray] = linear):
+    def __init__(self, input_dim: int, activation_func):
 
         self.logger = logging.getLogger(__name__)
         self.logger.debug(f"Initializing Neuron with input_dim={input_dim}")

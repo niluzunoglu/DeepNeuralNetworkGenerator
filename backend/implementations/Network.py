@@ -1,6 +1,7 @@
 import numpy as np
 from typing import List, Callable, Optional
-from Layer import Layer, sigmoid, relu, linear # Dosya yolunu kontrol et
+from .Layer import Layer
+
 
 class NeuralNetwork:
 

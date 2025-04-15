@@ -1,8 +1,6 @@
-# backend/Layer.py
-
 import numpy as np
 from typing import List, Callable, Optional
-from Neuron import Neuron, sigmoid, relu, linear
+from .Neuron import Neuron
 
 class Layer:
 
@@ -11,7 +9,7 @@ class Layer:
         num_neurons Bu katmanda bulunacak nöron sayısı.
         input_dim Bu katmana gelen girdi sayısı (önceki katmanın nöron sayısı veya ilk katman için özellik sayısı).
         activation_func  Bu katmandaki tüm nöronlar için kullanılacak varsayılan aktivasyon fonksiyonu.
-        name  
+        name opsiyonel isim.
         """
         if num_neurons <= 0:
             raise ValueError("Nöron sayısı pozitif olmalıdır.")
@@ -23,35 +21,31 @@ class Layer:
         self.activation_function = activation_func
         self.name = name if name else f"Layer_{num_neurons}neurons"
 
-        # Katmandaki nöronları oluştur
         self.neurons: List[Neuron] = [
             Neuron(input_dim=self.input_dim, activation_func=self.activation_function)
             for _ in range(self.num_neurons)
         ]
 
-        # Katmanın ilk veya son katman olup olmadığını belirten bayraklar
-        # Bunlar NeuralNetwork sınıfı tarafından ayarlanacak.
-        self.is_first_layer: bool = False # Teknik olarak ilk *işlem* katmanı
+        # bunları şunun için ekledim: eğer bir katman 
+        # ilk katman ise, ilk katmanın nöronları için ağırlıklar ve bias'lar
+        # sıfırdan başlatılacak, diğer katmanlar için ise önceki katmanın
+        # nöronlarının çıktısı kullanılacak, son katman ise sonuç döndürülecek.
+
+        self.is_first_layer: bool = False 
         self.is_output_layer: bool = False
 
-        # İleri yayılım sırasında hesaplanacak değerler
         self.last_input: Optional[np.ndarray] = None # Bu katmana gelen son girdi (A_prev)
         self.layer_activation: Optional[np.ndarray] = None # Bu katmanın çıktısı (A)
 
-    def forward(self, inputs: np.ndarray) -> np.ndarray:
+    def forward(self, inputs):
         """
-        Katmanın ileri yayılım hesaplamasını gerçekleştirir.
-        Katmandaki her nöronun forward metodunu çağırır.
-
-        Args:
-            inputs (np.ndarray): Önceki katmandan gelen aktivasyonlar (A_prev).
-                                 Shape (input_dim,) olmalıdır (tek örnek için).
-                                 (Batch processing için (batch_size, input_dim) gerekir
-                                  ama şimdilik tek örnek varsayalım).
+        inputs : Önceki katmandan gelen aktivasyonlar (A_prev).
+                 Shape (input_dim,) olmalıdır (tek örnek için).
+                 (Batch processing için (batch_size, input_dim) gerekir
+                  ama şimdilik tek örnek varsayalım).
 
         Returns:
-            np.ndarray: Bu katmandaki tüm nöronların aktivasyon değerlerini içeren
-                        vektör (A). Shape (num_neurons,).
+        Bu katmandaki tüm nöronların aktivasyon değerlerini içeren vektör (A). Shape (num_neurons,).
         """
         if inputs.shape[0] != self.input_dim:
              raise ValueError(
